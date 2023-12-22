@@ -28,13 +28,13 @@ function View(resState) {
       <Row>
 
         {
-          allVideos.map(item => (
+          allVideos?allVideos.map(item => (
             <Col sm={12} md={6} lg={4} className='mb-4'>
 
               <Videocard delResUpdate={delResUpdate} video={item} />
 
             </Col>
-          ))
+          )): <div className='text-danger'>No Data Available</div>
         }
       </Row>
 

@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { Modal, Button, FloatingLabel, Form } from 'react-bootstrap'
 import { addCategory, deletecategory, getCategories, getSpecificVideos, updatecategory } from '../services/allApis';
 import { toast } from 'react-toastify';
-import Videocard from '../components/Videocard'
+import VideoCard from './Videocard'
 
 function Category() {
+
 
   const [show, setShow] = useState(false);
   const [categories, setCategories] = useState([])
@@ -92,28 +93,33 @@ function Category() {
         <button onClick={handleShow} className='btn bg-black text-white '>Add category</button>
       </div>
       {
-        categories.map(item => (
+        categories?categories.map(item => (
           <div className='m-3 p-2 border border-info shadow rounded'
             onDragOver={e => dragOver(e)} onDrop={(e) => onDropHandle(e, item?.id)}>
+
             <div>
-              <span>
+              <span className='text-black'>
                 {item?.categoryName}
               </span>
-              <span style={{ float: 'right' }} className='btn p-0 ' onClick={() => handleCategoryDelete(item?.id)} >
-                <i class="fa-solid fa-trash-can" style={{ color: '#ff0000' }}></i>
-              </span>
+              <span className='btn p-0' style={{ float: 'right' }} onClick={() => handleCategoryDelete(item?.id)} ><i class="fa-regular fa-trash-can" style={{ color: 'red' }} ></i></span>
+            </div>
+
+
+            <div>
+              {
+               item?.allVideos?.map(video => (
+                  <VideoCard video={video} isCategory={true} />
+                ))
+              }
 
             </div>
-            <div  >
-              {item?.allVideos.map(video=>(
-                <Videocard  video={video} isCategory={true}/>
-              ))}
-            </div>
+
 
           </div>
-        ))
+        )) : <div className='text-danger'>No Data Available</div>
+            }
 
-      }
+      
 
 
       <Modal

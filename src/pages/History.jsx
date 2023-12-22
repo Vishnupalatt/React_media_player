@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { getHistory } from '../services/allApis'
 import { Link } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify'
+import { deleteHistory } from '../services/allApis'
 
 function History() {
 
@@ -12,7 +14,17 @@ function History() {
     setHistory(res.data)
     console.log(res.data)
   }
-
+  const handlehistoryDelete=async(id)=>{
+    const res=await deleteHistory(id)
+    console.log(res)
+    if(res.status>=200 || res.status<300){
+      toast.success("History Removed")
+      handleHistoryList()
+    }
+    else{
+      toast.error("Failed")
+    }
+  }
 
   useEffect(() => {
     handleHistoryList()
@@ -31,23 +43,26 @@ function History() {
           <th>Caption</th>
           <th>URL</th>
           <th>Date</th>
+          <th></th>
         </tr>
         {
-          history.map((item, index) => (
+          history?history.map((item, index) => (
             <tr className=' square border-bottom border-dark text-center'>
               <td className='p-3' >{index + 1}</td>
               <td><img className='m-3 bg-light' width={200} height={100} src={item?.thumbnail} alt="img" /></td>
               <td>{item?.caption}</td>
               <td ><Link className='bg-light' to={item?.url}>{item?.url}</Link></td>
               <td>{item?.date}</td>
+              <td><span className='btn bg-light'  ><i className="fa-solid fa-trash fa-lg " onClick={()=>handlehistoryDelete(item?.id)} style={{color: "#a80505"}}></i></span></td>
             </tr>
 
-          ))
+          )): <div className='text-danger'>No Data Available</div>
 
 
         }
 
       </table>
+      <ToastContainer/>
     </div>
   )
 }

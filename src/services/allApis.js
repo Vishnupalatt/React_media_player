@@ -61,3 +61,8 @@ export const getSpecificVideos = async (id) => {
 export const updatecategory = async (id,body) => {
     return await commanRequest('PUT', `${BASE_URL}/categories/${id}`,body)
 }
+// to delete specific category
+
+export const deleteHistory = async (id) => {
+    return await commanRequest('DELETE', `${BASE_URL}/Watchhistory/${id}`, {})
+}

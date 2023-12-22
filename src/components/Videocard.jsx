@@ -5,17 +5,17 @@ import { addHistory, deletevideo } from '../services/allApis';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 
-function Videocard({ video, delResUpdate,isCategory }) {
+function Videocard({ video, delResUpdate, isCategory }) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = async () => {
     setShow(true);
     let date = new Date()
-    let id=uuidv4()
+    let id = uuidv4()
     const { thumbnail, caption, url } = video
     // console.log(id,caption,url,date)
-    let body = { id,thumbnail, caption, url, date }
+    let body = { id, thumbnail, caption, url, date }
     const res = await addHistory(body)
     console.log(res)
   }
@@ -34,20 +34,20 @@ function Videocard({ video, delResUpdate,isCategory }) {
     }
   }
 
-  const ondrag=(e,id)=>{
+  const ondrag = (e, id) => {
     // e.preventDefault()
-    console.log("Target Video ID",id)
-    e.dataTransfer.setData("videoid",id)
+    console.log("Target Video ID", id)
+    e.dataTransfer.setData("videoid", id)
 
   }
   return (
     <div>
       <Card style={{ width: '100%' }}>
-        <Card.Img style={{ height: '200px' }} onClick={handleShow} draggable onDragStart={(e)=>ondrag(e,video?.id)} variant="top" src={video?.thumbnail} alt='img' />
+        <Card.Img style={{ height: '200px' }} onClick={handleShow} draggable onDragStart={(e) => ondrag(e, video?.id)} variant="top" src={video?.thumbnail} alt='img' />
         <Card.Body>
           {
-            isCategory?"":
-            <Card.Title className='text-center'>{video?.caption} <span className='btn p-0' style={{ float: 'right' }} onClick={() => removeVideo(video.id)}><i class="fa-solid fa-trash-can" style={{ color: '#ff0000' }}></i></span> </Card.Title>
+            isCategory ? "" :
+              <Card.Title className='text-center'>{video?.caption} <span className='btn p-0' style={{ float: 'right' }} onClick={() => removeVideo(video.id)}><i class="fa-solid fa-trash-can" style={{ color: '#ff0000' }}></i></span> </Card.Title>
 
           }
         </Card.Body>
